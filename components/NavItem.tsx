@@ -1,7 +1,13 @@
 import Image from "next/image"
 import Link from "next/link";
 
-const NavItem = ({ icon, label, href }: { icon: string; label: string, href: string }) => {
+interface NavigationItem {
+    icon: string;
+    label: string;
+    href: string;
+}
+
+const NavItem = ({ icon, label, href }: NavigationItem) => {
     return (
         <Link href={href}>
             <div className="flex items-center gap-4 p-3 rounded-full cursor-pointer transition hover:bg-[#1a1a1a]">
