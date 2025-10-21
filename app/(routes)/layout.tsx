@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/sidebar";
 import Rightbar from "@/components/Rightbar";
-import { connectToDB } from "@/lib/mongodb";
+// import { connectToDB } from "@/lib/mongodb";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  await connectToDB()
+  // await connectToDB()
   return (
     <html lang="en">
       <body className="flex justify-center bg-black text-white max-w-[1200px] mx-auto">

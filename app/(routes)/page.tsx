@@ -32,9 +32,9 @@ export default function HomePage() {
   return (
     <main className="text-white bg-black min-h-screen">
       <h1 className="p-4 text-xl font-bold border-b border-[#2f3336]">Home</h1>
-      {tweets.map((tweet) => (
+      {/* {tweets.map((tweet) => (
         <TweetItem key={tweet._id} {...tweet} />
-      ))}
+      ))} */}
     </main>
   );
 }
