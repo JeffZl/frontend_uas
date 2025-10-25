@@ -2,6 +2,8 @@ import React from "react"
 import ProfileHeader from "@/components/Profile/ProfileHeader"
 import UserBio from "@/components/Profile/UserBio"
 import ProfileTabs from "@/components/Profile/ProfileTabs"
+import EditProfileButton from "@/components/Profile/EditProfile"
+import Image from "next/image"
 
 const page = () => {
     return (
@@ -10,6 +12,17 @@ const page = () => {
             <ProfileHeader
                 name="Jane Doe"
             />
+
+            <Image 
+                src="/icons/banner.jpg"
+                alt="Banner Image"
+                width={745}
+                height={250}
+                className="profile-banner-image"
+            />
+
+            <EditProfileButton />
+
             <UserBio
                 name="Jane Doe"
                 handle="bomb_gdoe"
