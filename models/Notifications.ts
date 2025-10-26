@@ -1,19 +1,38 @@
 import mongoose, { Schema, model, models } from "mongoose";
 
-const notificationSchema = new Schema(
-    {
-        recipient: { type: Schema.Types.ObjectId, ref: "User", required: true },
-        sender: { type: Schema.Types.ObjectId, ref: "User" },
-        type: {
-        type: String,
-        enum: ["like", "follow", "reply", "mention", "retweet"],
-        required: true,
-        },
-        tweet: { type: Schema.Types.ObjectId, ref: "Tweet" },
-        read: { type: Boolean, default: false },
-    },
-    { timestamps: true }
-);
+const notificationSchema = new mongoose.Schema({
+  recipient: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  sender: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  type: {
+    type: String,
+    required: true,
+    enum: ['like', 'retweet', 'reply', 'follow', 'mention', 'message']
+  },
+  tweet: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Tweet'
+  },
+  message: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Message'
+  },
+  isRead: {
+    type: Boolean,
+    default: false
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
 
 const Notification = models.Notification || model("Notification", notificationSchema);
 export default Notification;

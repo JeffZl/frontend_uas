@@ -1,14 +1,41 @@
 import mongoose, { Schema, model, models } from "mongoose";
 
-const messageSchema = new Schema(
-    {
-        conversation: { type: Schema.Types.ObjectId, ref: "Conversation" },
-        sender: { type: Schema.Types.ObjectId, ref: "User", required: true },
-        text: { type: String, required: true },
-        seenBy: [{ type: Schema.Types.ObjectId, ref: "User" }],
+const messageSchema = new Schema({
+  conversation: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Conversation',
+    required: true
+  },
+  sender: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  content: {
+    type: String,
+    required: function() {
+      return !this.media || this.media.length === 0;
+    }
+  },
+  media: [{
+    url: String,
+    publicId: String,
+    mediaType: {
+      type: String,
+      enum: ['image', 'video', 'file']
     },
-    { timestamps: true }
-);
-
+    size: Number,
+    originalName: String
+  }],
+  isRead: {
+    type: Boolean,
+    default: false
+  },
+  readAt: Date,
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
 const Message = models.Message || model("Message", messageSchema);
 export default Message;
