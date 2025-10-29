@@ -1,13 +1,37 @@
-import { getUserByHandle, updateUserByHandle, deleteUserByHandle } from "@/controllers/userController";
+import { updateUserByHandle, deleteUserByHandle } from "@/controllers/userController";
 
-export async function GET(request, { params }) {
-  try {
-    const user = await getUserByHandle(params.handle);
-    return Response.json(user, { status: 200 });
-  } catch (error) {
-    return Response.json({ error: error.message }, { status: error.status || 500 });
-  }
-}
+// export async function GET(req, { params }) {
+//   try {
+//     await connectToDB();
+
+//     const { handle } = params;
+
+//     if (!handle) {
+//       return Response.json(
+//         { error: "Missing handle parameter" },
+//         { status: 400 }
+//       );
+//     }
+
+//     const user = await User.findOne({ handle: handle.toLowerCase() })
+//       .select(
+//         "handle name bio profilePicture coverPicture followersCount followingCount tweetsCount likesCount createdAt"
+//       )
+//       .lean();
+
+//     if (!user) {
+//       return Response.json({ error: "User not found" }, { status: 404 });
+//     }
+
+//     return Response.json({ user }, { status: 200 });
+//   } catch (error) {
+//     console.error("Error fetching user profile:", error);
+//     return Response.json(
+//       { error: "Failed to fetch user profile" },
+//       { status: 500 }
+//     );
+//   }
+// }
 
 export async function PUT(request, { params }) {
   try {

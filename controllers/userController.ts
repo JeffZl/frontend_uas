@@ -1,22 +1,8 @@
 import { connectToDB } from "@/lib/mongodb";
 import User from "@/models/User"
 
-export const getUserByHandle = async (handle: string) => {
-    await connectToDB();
-
-    if (!handle) throw { status: 400, message: "Missing handle, please try again!" };
-
-    const user = await User.findOne({ handle });
-    if (!user) throw { status: 404, message: "User not found, please try again!" };
-
-    const userResponse = user.toObject();
-    delete userResponse.password;
-
-    return userResponse;
-}
-
 // Update user profile
-export const updateUserByHandle = async (handle: string, body) => {
+export const updateUserByHandle = async (handle: string, body: any) => {
     await connectToDB();
 
     if (!handle) throw { status: 400, message: "Missing handle, please try again!" };

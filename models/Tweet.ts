@@ -61,25 +61,13 @@ const tweetSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  isRetweet: {
-    type: Boolean,
-    default: false
-  },
   originalTweet: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Tweet'
   },
-  isReply: {
-    type: Boolean,
-    default: false
-  },
   parentTweet: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Tweet'
-  },
-  isSensitive: {
-    type: Boolean,
-    default: false
   },
   mediaOnly: {
     type: Boolean,

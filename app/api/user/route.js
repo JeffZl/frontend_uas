@@ -1,6 +1,10 @@
 import { connectToDB } from "@/lib/mongodb";
 import User from "@/models/User"
 import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
+import { cookies } from "next/headers"
+
+const JWT_SECRET = process.env.JWT_SECRET
 
 // create user
 export async function POST(request) {
@@ -36,6 +40,20 @@ export async function POST(request) {
 
     const userResponse = newUser.toObject()
     delete userResponse.password
+
+    const token = jwt.sign(
+      { id: newUser._id, email: newUser.email, handle: newUser.handle },
+      JWT_TOKEN,
+      { expiresIn: "7d" }
+    )
+
+    cookies().set("session_token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/",
+      maxAge: 7 * 24 * 60 * 60,
+    })
 
     return Response.json(userResponse, { status: 201 })
   } catch (error) {

@@ -30,11 +30,13 @@ const userSchema = new mongoose.Schema({
   },
   profilePicture: {
     url: String,
-    publicId: String
+    publicId: String,
+    format: String 
   },
-  coverPicture: {
-    url: String,
-    publicId: String
+  coverPicture: { 
+    url: String, 
+    publicId: String, 
+    format: String 
   },
   location: String,
   website: String,

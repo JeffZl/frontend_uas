@@ -37,7 +37,7 @@ export default function FeedPage() {
         <h2 className="text-xl font-bold mb-4">Trending Now</h2>
         <div className="space-y-3">
           {trending.map(({ postCount, title, topic }) => (
-            <Trenditem postCount={postCount} title={title} topic={topic} />
+            <Trenditem key={title} postCount={postCount} title={title} topic={topic} />
           ))}
         </div>
       </section>
