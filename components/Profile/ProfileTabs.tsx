@@ -24,9 +24,7 @@ export default function ProfileTabs(){
                 ))}
             </nav>
 
-            <div className="tab-content">
-                <p>Konten untuk tab **{activeTab}** akan ditampilkan di sini</p>
-            </div>
+            
         </div>
     )
 }
