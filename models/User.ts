@@ -72,7 +72,21 @@ const userSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
   }
+});
+
+// Indexes for performance
+// Note: handle and email already have indexes from unique: true, so we don't duplicate them
+userSchema.index({ createdAt: -1 });
+
+// Update updatedAt before saving
+userSchema.pre('save', function(next) {
+  this.updatedAt = new Date();
+  next();
 });
 
 const User = models.User || model("User", userSchema);

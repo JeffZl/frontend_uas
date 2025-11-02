@@ -18,5 +18,18 @@ const conversationSchema = new mongoose.Schema({
     default: Date.now
   }
 });
+
+// Validation: conversations should have exactly 2 participants
+conversationSchema.pre('validate', function(next) {
+  if (this.participants && this.participants.length !== 2) {
+    next(new Error('Conversation must have exactly 2 participants'));
+  } else {
+    next();
+  }
+});
+
+// Index for finding user conversations
+conversationSchema.index({ participants: 1, lastMessageAt: -1 });
+
 const Conversation = models.Conversation || model("Conversation", conversationSchema);
 export default Conversation;

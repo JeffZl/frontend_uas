@@ -20,5 +20,8 @@ const trendSchema = new mongoose.Schema({
   }
 });
 
+// Index for trending queries
+trendSchema.index({ tweetCount: -1, lastUpdated: -1 });
+
 const Trend = models.Trend || model("Trend", trendSchema);
 export default Trend;

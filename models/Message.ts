@@ -37,5 +37,10 @@ const messageSchema = new Schema({
     default: Date.now
   }
 });
+
+// Index for efficient message thread queries
+messageSchema.index({ conversation: 1, createdAt: -1 });
+messageSchema.index({ sender: 1 });
+
 const Message = models.Message || model("Message", messageSchema);
 export default Message;

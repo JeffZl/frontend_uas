@@ -3,23 +3,35 @@ import Image from "next/image"
 interface User {
     name: string,
     handle: string,
-    avatar: string
+    avatar?: string | null
 }
 
 const UserItem = ({ name, handle, avatar }: User) => {
+    const getInitial = (name?: string) => {
+        return name?.[0]?.toUpperCase() || "?";
+    };
+
     return (
         <div className="flex items-center justify-between" key={handle}>
             <div className="flex items-center gap-2.5">
-                <Image
-                    src={avatar}
-                    alt={name}
-                    width={40}
-                    height={40}
-                    className="rounded-full"
-                />
+                {avatar ? (
+                    <Image
+                        src={avatar}
+                        alt={name}
+                        width={40}
+                        height={40}
+                        className="rounded-full object-cover"
+                    />
+                ) : (
+                    <div className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-700 flex-shrink-0">
+                        <span className="text-white font-bold text-sm">
+                            {getInitial(name)}
+                        </span>
+                    </div>
+                )}
                 <div className="flex-grow">
                     <span className="block font-bold">{name}</span>
-                    <span className="text-sm text-gray-500">{handle}</span>
+                    <span className="text-sm text-gray-500">@{handle.replace('@', '')}</span>
                 </div>
             </div>
             <button className="bg-white text-black font-bold text-sm py-1.5 px-3 rounded-full hover:bg-gray-200 transition-colors">

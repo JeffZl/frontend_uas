@@ -3,7 +3,11 @@ import User from "@/models/User";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 
-const SECRET = process.env.JWT_SECRET || "your-secret-key";
+const SECRET = process.env.JWT_SECRET;
+
+if (!SECRET) {
+  throw new Error("JWT_SECRET environment variable is required");
+}
 
 /**
  * GET /api/user/me

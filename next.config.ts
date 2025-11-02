@@ -14,6 +14,18 @@ const nextConfig = {
         hostname: 'robohash.org', // You will need this one too!
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.cloudinary.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },

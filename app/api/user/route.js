@@ -4,7 +4,11 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { cookies } from "next/headers"
 
-const JWT_SECRET = process.env.JWT_SECRET
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET environment variable is required");
+}
 
 // create user
 export async function POST(request) {
@@ -43,7 +47,7 @@ export async function POST(request) {
 
     const token = jwt.sign(
       { id: newUser._id, email: newUser.email, handle: newUser.handle },
-      JWT_TOKEN,
+      JWT_SECRET,
       { expiresIn: "7d" }
     )
 

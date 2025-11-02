@@ -76,7 +76,28 @@ const tweetSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  },
+  isDeleted: {
+    type: Boolean,
+    default: false
   }
+});
+
+// Indexes for performance (critical for timeline queries)
+tweetSchema.index({ author: 1, createdAt: -1 });
+tweetSchema.index({ createdAt: -1 });
+tweetSchema.index({ parentTweet: 1 });
+tweetSchema.index({ originalTweet: 1 });
+tweetSchema.index({ isDeleted: 1 });
+
+// Update updatedAt before saving
+tweetSchema.pre('save', function(next) {
+  this.updatedAt = new Date();
+  next();
 });
 
 const Tweet = models.Tweet || model("Tweet", tweetSchema);
