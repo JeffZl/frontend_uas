@@ -1,6 +1,7 @@
 import { connectToDB } from "@/lib/mongodb"
 import Tweet from "@/models/Tweet"
 import User from "@/models/User"
+import Trend from "@/models/Trend"
 import cloudinary from "@/lib/cloudinary"
 import jwt from "jsonwebtoken"
 import { cookies } from "next/headers"
@@ -73,6 +74,24 @@ export async function POST(req) {
         user.tweets.push(newTweet._id)
         user.tweetsCount += 1
         await user.save()
+
+        // Update trend counts for hashtags
+        if (hashtags && Array.isArray(hashtags) && hashtags.length > 0) {
+          for (const hashtag of hashtags) {
+            // Remove # if present and normalize to lowercase
+            const cleanHashtag = hashtag.replace(/^#/, '').toLowerCase();
+            if (cleanHashtag) {
+              await Trend.findOneAndUpdate(
+                { hashtag: cleanHashtag },
+                {
+                  $inc: { tweetCount: 1 },
+                  $set: { lastUpdated: new Date() },
+                },
+                { upsert: true, new: true } // Create if doesn't exist
+              );
+            }
+          }
+        }
 
         const populatedTweet = await newTweet.populate("author", "handle name profilePicture")
 

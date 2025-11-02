@@ -11,16 +11,26 @@ interface Trend {
 
 export default function FeedPage() {
   const [trending, setTrending] = useState<Trend[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const trends: Trend[] = [
-      { topic: "Esports", title: "Valorant Champions", postCount: "12.3K posts" },
-      { topic: "Music", title: "Taylor Swift", postCount: "89.1K posts" },
-      { topic: "Technology", title: "AI Revolution", postCount: "45.7K posts" },
-      { topic: "Movies", title: "Avengers Reboot", postCount: "23.4K posts" },
-    ];
+    const fetchTrends = async () => {
+      try {
+        const res = await fetch("/api/trends", {
+          credentials: "include",
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setTrending(data.trends || []);
+        }
+      } catch (error) {
+        console.error("Error fetching trends:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    setTrending(trends);
+    fetchTrends();
   }, []);
 
   return (
@@ -35,11 +45,28 @@ export default function FeedPage() {
 
       <section className="p-4">
         <h2 className="text-xl font-bold mb-4">Trending Now</h2>
-        <div className="space-y-3">
-          {trending.map(({ postCount, title, topic }) => (
-            <Trenditem key={title} postCount={postCount} title={title} topic={topic} />
-          ))}
-        </div>
+        {loading ? (
+          <div className="space-y-3">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="p-3 rounded-lg bg-[#202327] animate-pulse">
+                <div className="w-24 h-3 bg-gray-700 rounded mb-2" />
+                <div className="w-32 h-4 bg-gray-700 rounded mb-2" />
+                <div className="w-20 h-3 bg-gray-700 rounded" />
+              </div>
+            ))}
+          </div>
+        ) : trending.length === 0 ? (
+          <div className="py-8 text-center text-gray-500">
+            <p>No trends available yet</p>
+            <p className="text-sm mt-2">Start using hashtags in your posts to see trends!</p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {trending.map(({ postCount, title, topic }, index) => (
+              <Trenditem key={`${title}-${index}`} postCount={postCount} title={title} topic={topic} />
+            ))}
+          </div>
+        )}
       </section>
     </main>
   );
